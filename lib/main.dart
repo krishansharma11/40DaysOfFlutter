@@ -48,7 +48,7 @@ class ButtonClass extends StatelessWidget {
               SizedBox(height: 16),
               Text("Icon Button"),
               IconButton(
-                icon: Icon(Icons.camera_alt_outlined),
+                icon: Icon(Icons.play_arrow),
                 onPressed: () {
                   print("Icon Button Pressed");
                 },
