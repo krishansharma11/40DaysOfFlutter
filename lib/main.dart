@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,11 +13,11 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: (const Text("Row and Column")),
           ),
-          body: Container(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+          body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Column"),
                 Container(
                   height: 100,
                   width: 100,
@@ -32,8 +33,9 @@ class MyApp extends StatelessWidget {
                   width: 80,
                   color: Colors.yellow,
                 ),
-                Column(
+                Row(
                   children: [
+                    Text("Row"),
                     Container(
                       height: 100,
                       width: 100,
@@ -50,8 +52,29 @@ class MyApp extends StatelessWidget {
                       color: Colors.red,
                     ),
                   ],
-                )
-              ]))),
+                ),
+                Stack(children: [
+                  Text("Stack"),
+                  Container(
+                    margin: EdgeInsets.only(left: 50),
+                    height: 250,
+                    width: 250,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 50),
+                    height: 200,
+                    width: 200,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 50),
+                    height: 100,
+                    width: 100,
+                    color: Colors.red,
+                  ),
+                ])
+              ])),
     );
   }
 }
