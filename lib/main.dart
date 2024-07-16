@@ -1,41 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ButtonClass());
 }
 
-class MyApp extends StatelessWidget {
+class ButtonClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: (const Text(
-            "Margin, Padding and Alignment",
-            style: TextStyle(
-                color: Color.fromARGB(255, 127, 13, 5),
-                fontWeight: FontWeight.w600),
-          )),
+          title: Text("Buttons Examples"),
         ),
-        body: Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 50),
-            // margin: EdgeInsets.all(50),
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(50),
-            // padding: EdgeInsets.only(left: 10),
-            height: 200,
-            width: 200,
-            color: Colors.red,
-            child: const Text(
-              "Margin, Padding, Alignment",
-              style: TextStyle(
-                color: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text("Elevated Button"),
+              ElevatedButton(
+                onPressed: () {
+                  print("Elevated Button Pressed");
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // Background color
+                  foregroundColor: Colors.white, // Text color
+                ),
+                child: Text("Elevated Button"),
               ),
-              textAlign: TextAlign.center,
-            ),
+              SizedBox(height: 16), // Spacing between buttons
+              Text("Text Button"),
+              TextButton(
+                onPressed: () {
+                  print("Text Button Pressed");
+                },
+                child: Text("Text Button"),
+              ),
+              SizedBox(height: 16),
+              Text("Outlined Button"),
+              OutlinedButton(
+                onPressed: () {
+                  print("Outlined Button Pressed");
+                },
+                child: Text("Outlined Button"),
+              ),
+              SizedBox(height: 16),
+              Text("Icon Button"),
+              IconButton(
+                icon: Icon(Icons.thumb_up),
+                onPressed: () {
+                  print("Icon Button Pressed");
+                },
+              ),
+            ],
           ),
         ),
       ),
