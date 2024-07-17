@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,6 +12,7 @@ class MyTextFieldClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formAge = GlobalKey<FormState>();
+    final password = GlobalKey<FormState>();
 
     // TODO: implement build
     return MaterialApp(
@@ -63,6 +66,44 @@ class MyTextFieldClass extends StatelessWidget {
                           },
                         ),
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      color: Colors.amber,
+                      child: const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color.fromARGB(255, 222, 220, 218),
+                            border: OutlineInputBorder(),
+                            labelText: "Enter Mobile Number",
+                            labelStyle: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      color: Colors.amber,
+                      child: const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: TextField(
+                          // style: TextStyle(backgroundColor: Colors.yellow),
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            fillColor: Color.fromARGB(255, 222, 220, 218),
+                            filled: true,
+                            labelText: "Enter Password",
+                            border: OutlineInputBorder(),
+                            labelStyle: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20),
