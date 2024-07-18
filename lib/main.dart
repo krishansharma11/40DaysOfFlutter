@@ -152,8 +152,8 @@ class MyTextFieldClass extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               print("button tapped");
-                              if (name.text == null) {
-                                print("Please Enter your Age");
+                              if (formKey.currentState!.validate()) {
+                                print("name: ${name.text}");
                               } else {
                                 print("entered age");
                               }
