@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,12 +8,20 @@ void main() {
 }
 
 class MyTextFieldClass extends StatelessWidget {
-  TextEditingController ddsdsds = TextEditingController();
+  final name = TextEditingController();
+  final age = TextEditingController();
+  final email = TextEditingController();
+  final number = TextEditingController();
+  final password = TextEditingController();
+  final _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final formAge = GlobalKey<FormState>();
-    final password = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
+    //    final name = GlobalKey<FormState>();
+    // final email = GlobalKey<FormState>();
+    // final number = GlobalKey<FormState>();
+    // final password = GlobalKey<FormState>();
 
     // TODO: implement build
     return MaterialApp(
@@ -22,16 +31,17 @@ class MyTextFieldClass extends StatelessWidget {
             ),
             body: SingleChildScrollView(
                 child: Form(
-                    key: formAge,
+                    key: formKey,
                     child: Column(
                       children: [
                         Container(
                           color: Colors.amber,
                           // margin: const EdgeInsets.all(10),
-                          child: const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: TextField(
-                                decoration: InputDecoration(
+                          child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: TextFormField(
+                                controller: name,
+                                decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: "Enter Your Name",
                                   filled: true,
@@ -41,7 +51,13 @@ class MyTextFieldClass extends StatelessWidget {
                                   ),
                                 ),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.amber),
+                                style: const TextStyle(color: Colors.amber),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please Enter Your Name";
+                                  }
+                                  return null;
+                                },
                               )),
                         ),
                         const SizedBox(
@@ -52,6 +68,7 @@ class MyTextFieldClass extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: TextFormField(
+                              controller: age,
                               decoration: const InputDecoration(
                                   filled: true,
                                   fillColor: Color.fromARGB(255, 222, 220, 218),
@@ -68,32 +85,39 @@ class MyTextFieldClass extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           color: Colors.amber,
-                          child: const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: TextField(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: TextFormField(
+                              controller: number,
                               keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 222, 220, 218),
                                 border: OutlineInputBorder(),
                                 labelText: "Enter Mobile Number",
                                 labelStyle: TextStyle(color: Colors.red),
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please Enter Your Mobile";
+                                }
+                              },
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           color: Colors.amber,
-                          child: const Padding(
-                            padding: EdgeInsets.all(20),
-                            child: TextField(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: TextFormField(
+                              controller: password,
                               // style: TextStyle(backgroundColor: Colors.yellow),
                               obscureText: true,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 fillColor: Color.fromARGB(255, 222, 220, 218),
                                 filled: true,
                                 labelText: "Enter Password",
@@ -109,12 +133,12 @@ class MyTextFieldClass extends StatelessWidget {
                         Container(
                             // height: 100,
                             color: Colors.amber,
-                            child: const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: TextField(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: TextFormField(
                                 keyboardType: TextInputType.emailAddress,
                                 obscureText: true,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     filled: true,
                                     fillColor:
                                         Color.fromARGB(255, 222, 220, 218),
@@ -128,7 +152,7 @@ class MyTextFieldClass extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               print("button tapped");
-                              if (formAge.currentState!.validate()) {
+                              if (name.text == null) {
                                 print("Please Enter your Age");
                               } else {
                                 print("entered age");
@@ -136,7 +160,7 @@ class MyTextFieldClass extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amber),
-                            child: Text("Submit"),
+                            child: const Text("Submit"),
                           ),
                         )
                       ],
