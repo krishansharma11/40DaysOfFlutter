@@ -34,6 +34,11 @@ class MyTextFieldClass extends StatelessWidget {
                     key: formKey,
                     child: Column(
                       children: [
+                        const CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage("lib/assets/weather.jpg"),
+                          child: Text("Profile"),
+                        ),
                         Container(
                           color: Colors.amber,
                           // margin: const EdgeInsets.all(10),
