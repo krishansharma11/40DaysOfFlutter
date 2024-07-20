@@ -33,8 +33,8 @@ class MyHomePage extends StatelessWidget {
                     _showAlertDialog(context);
                   },
                   child: Text('Press Me'),
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.pink)),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 216, 216, 215))),
               SizedBox(height: 20),
               Text('Cupertino Button:'),
               CupertinoButton(
