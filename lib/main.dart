@@ -1,48 +1,43 @@
-import 'dart:ffi';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyListViewClass());
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyListViewClass(),
+    );
+  }
 }
 
 class MyListViewClass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    //    final name = GlobalKey<FormState>();
-    // final email = GlobalKey<FormState>();
-    // final number = GlobalKey<FormState>();
-    // final password = GlobalKey<FormState>();
-
-    // TODO: implement build
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black45,
-        title: const Text(
-          "List View",
-        ),
+        title: const Text("List View"),
       ),
       body: Column(
         children: [
           SizedBox(
             height: 200,
             child: ListView.builder(
-                itemCount: 100,
-                itemBuilder: (context, index) {
-                  return (ListTile(
-                    title: Text("Item $index"),
-                    subtitle: Text("Sub Item Name"),
-                    leading: Icon(Icons.arrow_forward),
-                    trailing: Icon(Icons.laptop_chromebook),
-                  ));
-                }),
+              itemCount: 100,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("Item $index"),
+                  subtitle: Text("Sub Item Name"),
+                  leading: Icon(Icons.arrow_forward),
+                  trailing: Icon(Icons.laptop_chromebook),
+                );
+              },
+            ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Container(
             color: Colors.grey,
             width: 200,
@@ -55,11 +50,12 @@ class MyListViewClass extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
-                itemCount: 100,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  return (ListTile(title: (Text("Item $index"))));
-                }),
+              itemCount: 100,
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                return ListTile(title: Text("Item $index"));
+              },
+            ),
           ),
           Container(
             color: Colors.grey,
@@ -74,12 +70,12 @@ class MyListViewClass extends StatelessWidget {
           Expanded(
             child: ListView.custom(
               childrenDelegate: SliverChildBuilderDelegate((context, index) {
-                return (ListTile(
-                  title: (Text("Item $index")),
+                return ListTile(
+                  title: Text("Item $index"),
                   onTap: () {
                     print("Item $index tapped");
                   },
-                ));
+                );
               }),
             ),
           ),
@@ -88,10 +84,20 @@ class MyListViewClass extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Add item");
+          var alertDialog = const AlertDialog(
+            title: Text("Add more items"),
+            content: Text("10 Items added"),
+          );
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alertDialog;
+            },
+          );
         },
         child: Icon(Icons.add),
-        tooltip: ("Add More Items"),
+        tooltip: "Add More Items",
       ),
-    ));
+    );
   }
 }
