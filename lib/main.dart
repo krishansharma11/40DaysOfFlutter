@@ -21,71 +21,66 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Material & Cupertino'),
+          title: const Text('Custome Button'),
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Material Button:'),
-              ElevatedButton(
-                  onPressed: () {
-                    _showAlertDialog(context);
-                  },
-                  child: Text('Press Me'),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 216, 216, 215))),
-              SizedBox(height: 20),
-              Text('Cupertino Button:'),
-              CupertinoButton(
-                onPressed: () {
-                  _showAlertDialog(context);
-                },
-                child: Text('Press Me'),
-                color: Colors.amberAccent,
-              ),
-            ],
-          ),
-        ));
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CustomButton(
+              titleButton: "Register",
+              onPressed: () {
+                print("hello");
+                _showAlertDialog(
+                    context, "Register", "User Register SuccesFully");
+              },
+            ),
+            CustomButton(
+              titleButton: "Login",
+              onPressed: () {
+                print("hello");
+                _showAlertDialog(context, "Login", "user Login Successfully");
+              },
+            ),
+          ],
+        )));
   }
 }
 
-void _showAlertDialog(BuildContext context) {
-  if (Platform.isIOS) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text('Cupertino Alert'),
-          content: Text('This is a Cupertino-style alert dialog.'),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  } else {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Material Alert'),
-          content: Text('This is a Material-style alert dialog.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+class CustomButton extends StatelessWidget {
+  late final String titleButton;
+  late final VoidCallback onPressed;
+
+  CustomButton({required this.titleButton, required this.onPressed});
+
+  // ignore: empty_constructor_bodies
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return (ElevatedButton(
+      onPressed: onPressed,
+      child: Text(titleButton),
+    ));
   }
+}
+
+void _showAlertDialog(
+    BuildContext context, String msgTitle, String msgDescription) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(msgTitle),
+        content: Text(msgDescription),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
