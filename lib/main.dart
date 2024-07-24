@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:practics/screens/DashboardScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,16 +22,20 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Custome Text Field'),
+          title: const Text('Home'),
         ),
         body: Center(
-            child: CustomTextField(
-                placeholderText: "Enter First Name",
-                labelText: "First Name",
-                prefixIcon: Icons.man_3_outlined,
-                onChanged: (vlaue) {
-                  print('input value $vlaue');
-                })));
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(child: (const Text("Welcome"))),
+          SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DashboardScreen()));
+              },
+              child: const Text("Dashboard"))
+        ])));
   }
 }
 
