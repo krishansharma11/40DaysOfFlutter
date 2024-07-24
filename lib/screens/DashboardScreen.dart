@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
+  final String data;
+  DashboardScreen({required this.data});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -12,6 +14,7 @@ class DashboardScreen extends StatelessWidget {
           child: Column(
         children: [
           Text("Welcome to Dashboard Screen"),
+          Text("you received data from home screen $data"),
           SizedBox(
             height: 20,
           ),

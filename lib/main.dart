@@ -31,8 +31,10 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DashboardScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DashboardScreen(data: "Apple")));
               },
               child: const Text("Dashboard"))
         ])));
