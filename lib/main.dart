@@ -21,66 +21,42 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Custome Button'),
+          title: const Text('Custome Text Field'),
         ),
         body: Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CustomButton(
-              titleButton: "Register",
-              onPressed: () {
-                print("hello");
-                _showAlertDialog(
-                    context, "Register", "User Register SuccesFully");
-              },
-            ),
-            CustomButton(
-              titleButton: "Login",
-              onPressed: () {
-                print("hello");
-                _showAlertDialog(context, "Login", "user Login Successfully");
-              },
-            ),
-          ],
-        )));
+            child: CustomTextField(
+                placeholderText: "Enter First Name",
+                labelText: "First Name",
+                prefixIcon: Icons.man_3_outlined,
+                onChanged: (vlaue) {
+                  print('input value $vlaue');
+                })));
   }
 }
 
-class CustomButton extends StatelessWidget {
-  late final String titleButton;
-  late final VoidCallback onPressed;
+class CustomTextField extends StatelessWidget {
+  late final String placeholderText;
+  final String labelText;
+  final IconData prefixIcon;
+  final ValueChanged<String> onChanged;
 
-  CustomButton({required this.titleButton, required this.onPressed});
+  CustomTextField(
+      {required this.placeholderText,
+      required this.labelText,
+      required this.prefixIcon,
+      required this.onChanged});
 
   // ignore: empty_constructor_bodies
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return (ElevatedButton(
-      onPressed: onPressed,
-      child: Text(titleButton),
+    return (TextFormField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+          hintText: placeholderText,
+          labelText: placeholderText,
+          prefixIcon: Icon(prefixIcon),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
     ));
   }
-}
-
-void _showAlertDialog(
-    BuildContext context, String msgTitle, String msgDescription) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(msgTitle),
-        content: Text(msgDescription),
-        actions: <Widget>[
-          TextButton(
-            child: Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
