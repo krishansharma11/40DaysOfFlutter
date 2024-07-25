@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:practics/screens/DashboardScreen.dart';
+import 'package:practics/screens/profileScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,9 +12,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
+    return MaterialApp(initialRoute: '/', routes: {
+      '/': (context) => MyHomePage(),
+      'dashboard': (context) => DashboardScreen(data: "Orange"),
+      'profile': (context) => ProfileScreen()
+    });
   }
 }
 
@@ -31,39 +34,14 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DashboardScreen(data: "Apple")));
+                Navigator.pushNamed(context, 'dashboard');
               },
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => DashboardScreen(data: "Apple")));
+              // },
               child: const Text("Dashboard"))
         ])));
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  late final String placeholderText;
-  final String labelText;
-  final IconData prefixIcon;
-  final ValueChanged<String> onChanged;
-
-  CustomTextField(
-      {required this.placeholderText,
-      required this.labelText,
-      required this.prefixIcon,
-      required this.onChanged});
-
-  // ignore: empty_constructor_bodies
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return (TextFormField(
-      onChanged: onChanged,
-      decoration: InputDecoration(
-          hintText: placeholderText,
-          labelText: placeholderText,
-          prefixIcon: Icon(prefixIcon),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-    ));
   }
 }

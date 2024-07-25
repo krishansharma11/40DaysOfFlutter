@@ -19,7 +19,13 @@ class DashboardScreen extends StatelessWidget {
             height: 20,
           ),
           ElevatedButton(
-              onPressed: () => Navigator.pop(context), child: Text("Back"))
+              onPressed: () => Navigator.pop(context), child: Text("Back")),
+          SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, 'profile'),
+              child: Text("Profile"))
         ],
       )),
     ));
