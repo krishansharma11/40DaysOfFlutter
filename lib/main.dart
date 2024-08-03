@@ -12,36 +12,51 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: '/', routes: {
-      '/': (context) => MyHomePage(),
-      'dashboard': (context) => DashboardScreen(data: "Orange"),
-      'profile': (context) => ProfileScreen()
-    });
+    return MaterialApp(home: CounterScreen());
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class CounterScreen extends StatefulWidget {
+  @override
+  _CounterPageState createState() => _CounterPageState();
+}
+
+class _CounterPageState extends State<CounterScreen> {
+  int counter = 0;
+
+  void increamentCounter() {
+    setState(() {
+      counter++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
-        ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(child: (const Text("Welcome"))),
-          SizedBox(height: 20),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'dashboard');
-              },
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => DashboardScreen(data: "Apple")));
-              // },
-              child: const Text("Dashboard"))
-        ])));
+    return (Scaffold(
+      appBar: AppBar(
+        title: Text("Set State"),
+      ),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$counter',
+            style: TextStyle(
+                color: Colors.red,
+                // height: 50,
+                fontWeight: FontWeight.bold,
+                fontSize: 34),
+            textAlign: TextAlign.center,
+          )
+        ],
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          increamentCounter();
+        },
+        child: Icon(Icons.add),
+      ),
+    ));
   }
 }
