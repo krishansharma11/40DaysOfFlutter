@@ -34,7 +34,7 @@ class _CounterPageState extends State<CounterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<MyModel>(
+    return ChangeNotifierProvider<MyModel>(
         create: (BuildContext context) => MyModel(),
         child: Scaffold(
           appBar: AppBar(
@@ -79,10 +79,11 @@ class _CounterPageState extends State<CounterScreen> {
   }
 }
 
-class MyModel {
+class MyModel with ChangeNotifier {
   var count = 0;
   void increamentCount() {
     count++;
+    notifyListeners();
     print("$count");
   }
 }
