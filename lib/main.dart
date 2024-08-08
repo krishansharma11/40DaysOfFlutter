@@ -1,10 +1,5 @@
-import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:practics/screens/DashboardScreen.dart';
-import 'package:practics/screens/profileScreen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,58 +19,25 @@ class CounterScreen extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterScreen> {
-  int counter = 0;
-
-  void increamentCounter() {
-    setState(() {
-      counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MyModel>(
-        create: (BuildContext context) => MyModel(),
+    return FutureProvider<String>(
+        create: (BuildContext context) => fetchData(),
+        initialData: "Loading...",
         child: Scaffold(
-          appBar: AppBar(
-            title: Text("Set State"),
-          ),
-          body: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '$counter',
-                style: TextStyle(
-                    color: Colors.red,
-                    // height: 50,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 34),
-                textAlign: TextAlign.center,
-              ),
-              Consumer<MyModel>(
-                builder: (context, MyModel, child) {
-                  return Text("${MyModel.count}");
-                },
-              ),
-              Consumer<MyModel>(
-                builder: (context, MyModel, child) {
-                  return ElevatedButton(
-                      onPressed: () {
-                        MyModel.increamentCount();
-                      },
-                      child: Text("Click"));
-                },
-              ),
-            ],
-          )),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              increamentCounter();
-            },
-            child: Icon(Icons.add),
-          ),
-        ));
+            appBar: AppBar(
+              title: Text("Future Provider"),
+            ),
+            body: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  Consumer<String>(
+                    builder: (context, data, child) {
+                      return Text("${data}");
+                    },
+                  )
+                ]))));
   }
 }
 
@@ -86,4 +48,9 @@ class MyModel with ChangeNotifier {
     notifyListeners();
     print("$count");
   }
+}
+
+Future<String> fetchData() async {
+  await Future.delayed(Duration(seconds: 3));
+  return "Hello, Future Provider!";
 }
