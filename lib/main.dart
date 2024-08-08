@@ -41,15 +41,6 @@ class _CounterPageState extends State<CounterScreen> {
   }
 }
 
-class MyModel with ChangeNotifier {
-  var count = 0;
-  void increamentCount() {
-    count++;
-    notifyListeners();
-    print("$count");
-  }
-}
-
 Future<String> fetchData() async {
   await Future.delayed(Duration(seconds: 3));
   return "Hello, Future Provider!";
