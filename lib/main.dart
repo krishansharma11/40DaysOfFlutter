@@ -1,47 +1,60 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:practics/screens/profileScreen.dart';
 import 'package:provider/provider.dart';
 
+class UserModel with ChangeNotifier {
+  String _name = "Mission Infotech Shivdaspura";
+
+  String get name => _name;
+
+  void updateName(String newName) {
+    _name = newName;
+    notifyListeners();
+  }
+}
+
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: CounterScreen());
+    return MaterialApp(
+      home: HomeScreen(),
+    );
   }
 }
 
-class CounterScreen extends StatefulWidget {
-  @override
-  _CounterPageState createState() => _CounterPageState();
-}
-
-class _CounterPageState extends State<CounterScreen> {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureProvider<String>(
-        create: (BuildContext context) => fetchData(),
-        initialData: "Loading...",
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text("Future Provider"),
-            ),
-            body: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Consumer<String>(
-                    builder: (context, data, child) {
-                      return Text("${data}");
-                    },
-                  )
-                ]))));
-  }
-}
+    final userModel = Provider.of<UserModel>(context);
 
-Future<String> fetchData() async {
-  await Future.delayed(Duration(seconds: 3));
-  return "Hello, Future Provider!";
+    return Scaffold(
+      appBar: AppBar(title: Text("Home Screen")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Welcome, ${userModel.name}"),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              child: Text("Go to Profile"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
