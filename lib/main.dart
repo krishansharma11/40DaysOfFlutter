@@ -49,9 +49,8 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: create) Scaffold(
-      appBar: 
-      AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: Text("Registration"),
       ),
       body: Padding(
@@ -90,6 +89,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 26),
               TextFormField(
                 controller: _userpasswordController,
+                obscureText: true,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Enter your Password',
@@ -104,6 +104,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 26),
               TextFormField(
                 controller: _userconfirmPasswordController,
+                obscureText: true,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Enter Confirm Password',
