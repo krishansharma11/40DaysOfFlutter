@@ -1,20 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:practics/model/UserRegisterationModel.dart';
-import 'package:practics/screens/profileScreen.dart';
-import 'package:provider/provider.dart';
-import 'package:practics/LoginScreen.dart';
-import 'package:practics/screens/DashboardScreen.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (_) => UserLoginModel()), // Provide the UserProvider
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,157 +11,82 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
-      routes: {
-        '/loginScreen': (context) => Loginscreen(),
-        '/dashboard': (context) => DashboardScreen(
-              data: '',
-            ),
-        'profile': (context) => ProfileScreen(),
-      },
+      home: ApiCallingScreen(),
     );
   }
 }
 
-class RegisterScreen extends StatefulWidget {
+class ApiCallingScreen extends StatefulWidget {
   @override
-  RegisterScreenState createState() => RegisterScreenState();
+  BaseApiCalling createState() => BaseApiCalling();
 }
 
-class RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>(); // Key for the form
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _useremailController = TextEditingController();
-  final TextEditingController _userpasswordController = TextEditingController();
-  final TextEditingController _userconfirmPasswordController =
-      TextEditingController();
+class BaseApiCalling extends State<ApiCallingScreen> {
+  List<dynamic> dataList = [];
+  bool isLoading = true; // To handle loading state
+
+  Future<void> fetchData() async {
+    setState(() {
+      isLoading = true; // Set loading to true when fetch starts
+    });
+    try {
+      final response = await http
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          dataList = jsonDecode(response.body);
+          isLoading = false; // Set loading to false when data is loaded
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load data: ${e.toString()}')),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData(); // Fetch data when the screen is initialized
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Registration"),
+        title: Text("Data List Example"),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _usernameController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your Name',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 26),
-              TextFormField(
-                controller: _useremailController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your Email',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email id';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 26),
-              TextFormField(
-                controller: _userpasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your Password',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your Password';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 26),
-              TextFormField(
-                controller: _userconfirmPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter Confirm Password',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your confirm password';
-                  }
-                  if (value != _userpasswordController.text) {
-                    return 'Password and confirm password not matched';
-                  }
-                  return null;
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Set the user data in UserLoginModel
-                      Provider.of<UserLoginModel>(context, listen: false)
-                          .setUser(
-                        _usernameController.text,
-                        _useremailController.text,
-                        _userpasswordController.text,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: dataList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(dataList[index]['title']),
+                        subtitle: Text(dataList[index]['body']),
                       );
-                      Navigator.pushNamed(
-                          context, '/loginScreen'); // Navigate to login screen
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    minimumSize: Size(400, 50),
+                    },
                   ),
-                  child: Text("Register"),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                        context, '/loginScreen'); // Navigate to login screen
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    minimumSize: Size(400, 50),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: fetchData,
+                    child: Text("Reload Data"),
                   ),
-                  child: Text("Login"),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
     );
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _useremailController.dispose();
-    _userpasswordController.dispose();
-    _userconfirmPasswordController.dispose();
-    super.dispose();
   }
 }
