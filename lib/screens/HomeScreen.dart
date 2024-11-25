@@ -46,7 +46,7 @@ class HomeScreen extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            ref.read(cartProvider.notifier).addItem();
+            ref.read(cartProvider.notifier).state++;
           },
           child: const Text('Add Item to Cart'),
         ),

@@ -8,7 +8,7 @@ class CartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartCount = ref.watch(cartProvider);
-    final cartNotifier = ref.read(cartProvider.notifier);
+    // final cartNotifier = ref.read(cartProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,12 +27,16 @@ class CartScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: cartNotifier.addItem,
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).state++;
+                  },
                   child: const Text('Add Item'),
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                  onPressed: cartNotifier.removeItem,
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).state--;
+                  },
                   child: const Text('Remove Item'),
                 ),
               ],
